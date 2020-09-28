@@ -146,6 +146,7 @@ class UniqueConstraint(BaseConstraint):
         fields = [model._meta.get_field(field_name).column for field_name in self.fields]
         include = [model._meta.get_field(field_name).column for field_name in self.include]
         condition = self._get_condition_sql(model, schema_editor)
+        print("CREATE SQL", model, fields, self.name, condition, include)
         return schema_editor._create_unique_sql(
             model, fields, self.name, condition=condition,
             deferrable=self.deferrable, include=include,

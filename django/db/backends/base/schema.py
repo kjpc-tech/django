@@ -143,6 +143,7 @@ class BaseDatabaseSchemaEditor:
                 cursor.execute(sql, params)
 
     def quote_name(self, name):
+        print("QUOTE NAME", name)
         return self.connection.ops.quote_name(name)
 
     def table_sql(self, model):
@@ -362,7 +363,9 @@ class BaseDatabaseSchemaEditor:
 
     def add_constraint(self, model, constraint):
         """Add a constraint to a model."""
+        print("ADD CONSTRAINT", model, constraint)
         sql = constraint.create_sql(model, self)
+        print("ADD CONSTRAINT SQL", sql)
         if sql:
             self.execute(sql)
 
@@ -1178,9 +1181,11 @@ class BaseDatabaseSchemaEditor:
             return None
 
         def create_unique_name(*args, **kwargs):
+            print("CREATE UNIQUE NAME", args, kwargs)
             return self.quote_name(self._create_index_name(*args, **kwargs))
 
         table = Table(model._meta.db_table, self.quote_name)
+        print("NAME", name)
         if name is None:
             name = IndexName(model._meta.db_table, columns, '_uniq', create_unique_name)
         else:
